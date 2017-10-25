@@ -1,5 +1,4 @@
-var endpoint 
-
+var endpoint = '/api/cs'
 $.ajax({
     method: "GET"
     url: endpoint,
