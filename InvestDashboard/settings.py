@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+# from decouple import config ## Later...
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +26,8 @@ SECRET_KEY = '+=#iq&lp+s%87@5w^0$&nqu=_107v#%4s6zl073-3t-rc(6tju'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# DEBUG = config('DEBUG', default=True, cast=bool) ## Later...
+
 ALLOWED_HOSTS = []
 
 
@@ -37,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'InvestDashboard.core'
 ]
 
 MIDDLEWARE = [
@@ -70,8 +75,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'InvestDashboard.wsgi.application'
 
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -118,3 +132,39 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticsfiles')
+
+# Django Rest Framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        #'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    #    'DEFAULT_RENDERER_CLASSES':[
+    #        'rest_framework.renderers.JSONRenderer',
+
+    #    ],
+    #    'DEFAULT_PARSER_CLASSES':[
+    #        'rest_framework.parsers.JSONParser',
+    #    ]
+}
+
+# ENSURE HTTPS Communications for Production (DEBUG = False)
+# https://docs.djangoproject.com/en/1.11/ref/settings/#secure-proxy-ssl-header
+# https://docs.djangoproject.com/en/1.11/ref/settings/#secure-ssl-redirect
+# https://docs.djangoproject.com/en/1.11/ref/settings/#session-cookie-secure
+# https://docs.djangoproject.com/en/1.11/ref/settings/#csrf-cookie-secure
+
+if DEBUG == False:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+else:
+    pass

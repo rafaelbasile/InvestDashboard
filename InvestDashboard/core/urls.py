@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from InvestDashboard import core
-from .core import urls
+from rest_framework import routers
+from .views import CompanySegmentViewSet
+
+# Routers provide an easy way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'cs', CompanySegmentViewSet)
 
 urlpatterns = [
-    url(r'^', include(core.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include(router.urls)),
+
 ]
