@@ -1,7 +1,7 @@
 var endpoint = '/api/cs'
 $.ajax({
     method: "GET"
-    url: endpoint,
+    url: endpoint
     success: function(data){
         console.log(data)
     },
