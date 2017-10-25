@@ -16,20 +16,6 @@ def home(request):
 	return render(request, "index.html", context)
 
 
-def get_data(request, *args, **kargs):
-	data = {
-
-	}
-	return JsonResponse(data)
-
-class ChartData(APIView):
-	def get(sef, request, format=None):
-		data ={
-
-		}
-		return Response(data)
-
-
 class CompanySegmentViewSet(viewsets.ModelViewSet):
 	queryset = CompanySegment.objects.all()
 	serializer_class = CompanySegmentSerializer
