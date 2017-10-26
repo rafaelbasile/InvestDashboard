@@ -15,12 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from InvestDashboard import core
-from .core import urls, views
+
 
 urlpatterns = [
-    url(r'^$', views.home),
-    url(r'^api/', include(core.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include('InvestDashboard.core.urls', namespace='core')),
+    url(r'^admin/', (admin.site.urls)),
 ]
